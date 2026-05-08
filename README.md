@@ -30,7 +30,7 @@ Based on the current project structure, Fasthook includes:
 
 The broader Fasthook project currently spans several repositories:
 
-- `fasthook` - backend pipeline and control API built on Cloudflare Workers
+- `fasthook` - backend pipeline and control API
 - `fasthook-ui` - website and dashboard applications
 - `fasthook-widget` - Chrome extension / side panel for quick request and event visibility
 - `fasthook.io` - public overview repository
