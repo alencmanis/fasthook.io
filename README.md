@@ -48,7 +48,7 @@ The broader Fasthook project currently spans several repositories:
 
 This repository exists to help people quickly understand:
 
-- what Fasthook is
+- what FastHook is
 - what problems it is solving
 - how the product is structured
 - which repositories are part of the ecosystem
