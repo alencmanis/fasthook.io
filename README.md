@@ -48,7 +48,7 @@ The broader Fasthook project currently spans several repositories:
 
 This repository exists to help people quickly understand:
 
-- what FastHook is
+- what Fasthook is
 - what problems it is solving
 - how the product is structured
 - which repositories are part of the ecosystem
@@ -60,4 +60,4 @@ Fasthook is an active product project. Some parts of the ecosystem are public-fa
 
 ## License
 
-No license is currently attached to this repository.
+No license is currently attached to this repository.s
