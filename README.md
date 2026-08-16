@@ -122,17 +122,11 @@ Always review the permissions requested by a provider integration and grant acce
 - `api.fasthook.io` — control APIs, provider callbacks, and webhook ingestion endpoints.
 - `hook-*.fasthook.io` — dedicated public webhook Source endpoints.
 
-## Repository map
+## Project structure
 
-The broader FastHook project is split into focused repositories:
+This public repository is the project overview and canonical entry point for FastHook documentation, product links, and integration information.
 
-- [`alencmanis/fasthook.io`](https://github.com/alencmanis/fasthook.io) — public project overview and ecosystem entry point.
-- [`alencmanis/fasthook`](https://github.com/alencmanis/fasthook) — backend pipeline, provider adapters, workers, storage, and control API.
-- [`alencmanis/fasthook-ui`](https://github.com/alencmanis/fasthook-ui) — public website and dashboard applications.
-- [`alencmanis/fasthook-cli`](https://github.com/alencmanis/fasthook-cli) — command-line tooling.
-- [`alencmanis/fasthook-widget`](https://github.com/alencmanis/fasthook-widget) — browser extension and side panel for request and event visibility.
-
-Each repository may have its own setup instructions, release cadence, and availability.
+FastHook is developed across multiple internal components and deployment services. Implementation repositories and infrastructure details are intentionally not enumerated here.
 
 ## Integrations
 
