@@ -1,148 +1,118 @@
 # FastHook
 
-FastHook is a webhook gateway and event-delivery platform for receiving, inspecting, transforming, routing, and reliably delivering events between services.
+### Connect apps. Build workflows. Automate everyday work.
 
-[Website](https://www.fasthook.io) · [Dashboard](https://dashboard.fasthook.io) · [Documentation](https://www.fasthook.io/docs) · [Pricing](https://www.fasthook.io/pricing)
+FastHook is a workflow automation platform for connecting apps, moving data between tools, and turning repetitive tasks into multi-step automations. Build visually with **Triggers, Actions, Filters, and Paths**, or describe your process to the AI assistant and review the proposed workflow.
 
-## What FastHook does
+If you have used Zapier, the starting point will feel familiar: **when something happens in one app, perform actions in others**. FastHook brings that model together with data transformations, webhook tooling, and detailed execution history.
 
-FastHook gives teams one place to manage the complete event path:
+[Start building](https://dashboard.fasthook.io/workflow) · [Website](https://www.fasthook.io) · [Templates](https://www.fasthook.io/templates) · [Integrations](https://www.fasthook.io/integrations) · [Documentation](https://www.fasthook.io/docs) · [Pricing](https://www.fasthook.io/pricing)
+
+## From an event to a finished task
 
 ```mermaid
 flowchart LR
-    A[Provider app or webhook] --> B[Source]
-    B --> C[Connection]
-    C --> D[Rules and transformations]
-    D --> E[Destination]
-    C --> F[Retries and delivery history]
+    T["Trigger: new app event or webhook"] --> F["Filter and format data"]
+    F --> P{"Conditional Paths"}
+    P --> A["Action: create or update a record"]
+    A --> N["Action: notify your team"]
+    P --> B["Action: call an API"]
 ```
 
-- Receive HTTP webhooks through dedicated Source URLs.
-- Create Provider Sources for services such as Google Workspace, Slack, and GitHub.
-- Route one Source to one or many Destinations.
-- Filter, transform, delay, deduplicate, and retry events per Connection.
-- Inspect incoming requests, normalized events, delivery attempts, and failures.
-- Replay failed traffic without asking the original provider to send it again.
-- Keep large payloads outside the operational database while preserving searchable metadata.
+A Workflow starts with one Trigger. Each new matching event supplies data to the steps that follow. Map fields from the Trigger or earlier steps, choose which routes should run, and inspect the result in Workflow Audit.
 
-## Why FastHook
+## What you can build
 
-Webhook integrations often start as a single endpoint and quickly become operational infrastructure. Teams need to verify signatures, absorb traffic spikes, prevent duplicates, store payloads, retry failures, and understand what happened after an event was received.
+These are examples of processes you can configure using the available Triggers and Actions:
 
-FastHook is designed to make those responsibilities explicit and observable:
-
-- **Fast acknowledgement** — receive and durably accept events before downstream work begins.
-- **Reliable delivery** — queue-based processing, retry policies, and dead-letter handling isolate temporary failures.
-- **Flexible routing** — connect Sources and Destinations without coupling provider code to delivery code.
-- **Operational visibility** — inspect request headers, bodies, events, attempts, and errors from the dashboard.
-- **Safe replay** — retry or replay events with idempotency and deduplication controls.
-- **Provider-aware security** — verify provider signatures and manage connected accounts separately from Source configuration.
-
-## Sources
-
-FastHook supports two Source families.
-
-### Provider app Sources
-
-Provider Sources connect to an external application and emit a normalized event when the selected activity occurs.
-
-| Provider | Delivery model | Example Source types |
-| --- | --- | --- |
-| Google Sheets | Polling and Google notification channels | New row, worksheet, comment, or update |
-| Gmail | Polling with Gmail query and label filters | New email or attachment received |
-| Google Drive | Polling and push notifications where supported | File or folder created, modified, or moved |
-| Google Calendar | Google notification channels with polling safety paths | Event created, updated, started, or cancelled |
-| Slack | Slack Events API | Messages, mentions, reactions, files, channels, users, and workspace events |
-| GitHub | Signed GitHub App webhooks | Pushes, pull requests, issues, releases, workflows, security events, and more |
-
-Provider credentials are managed independently, can be reused by multiple Sources, and can be revoked from FastHook account settings.
-
-The FastHook GitHub App can be installed for all repositories or limited to selected repositories: [Install or view FastHook.io on GitHub](https://github.com/apps/fasthook-io).
-
-### Webhook endpoint Sources
-
-Webhook Sources expose a dedicated FastHook URL for any service that can send HTTP requests. They support optional authentication, request verification, proxying, custom responses, and traffic inspection.
-
-Use a Webhook Source when a provider does not require an account connection or when you want direct control over the incoming request contract.
-
-## Core concepts
-
-| Concept | Purpose |
+| Process | Example workflow |
 | --- | --- |
-| **Source** | Receives an event from a provider app or dedicated webhook endpoint. |
-| **Destination** | Defines the service or endpoint that should receive processed events. |
-| **Connection** | Links a Source to a Destination and owns delivery behavior. |
-| **Rule** | Filters, delays, deduplicates, retries, or otherwise controls a Connection. |
-| **Transformation** | Changes headers, payloads, or structure before delivery. |
-| **Request** | Preserves the original inbound HTTP request for inspection and replay. |
-| **Event** | Represents an accepted event moving through the delivery pipeline. |
-| **Fixture** | Stores a reusable example payload for testing transformations and Connections. |
-| **Alert** | Surfaces delivery, provider-channel, or operational failures that need attention. |
+| Save email attachments | Gmail attachment → format received date → find or create a Google Drive folder → upload and share the file → notify Telegram. |
+| Keep your team informed | New Google Sheets row → Filter → Slack message. |
+| Coordinate project updates | Trello event → send updates to Slack, Discord, or Telegram. |
+| Process incoming webhooks | Webhook → transform the payload → choose a Path → call an API or run an app Action. |
 
-## Quick start
+Start from an [automation template](https://www.fasthook.io/templates) or build your own. The [integration catalog](https://www.fasthook.io/integrations) lists available app operations and setup requirements.
 
-1. Sign in to the [FastHook dashboard](https://dashboard.fasthook.io).
-2. Create a **Provider app** Source or a **Webhook endpoint** Source.
-3. Add a Destination.
-4. Create a Connection between the Source and Destination.
-5. Add optional filters, transformations, delays, deduplication, or retry behavior.
-6. Send an event and inspect it in **Requests**, **Events**, or the Source run history.
+## Build visually or with AI
 
-For provider integrations, connect the account requested by the Source wizard. For generic webhooks, copy the generated Source URL into the sending service.
+- **Visual workflow builder** — connect a Trigger to multiple steps and conditional routes on one canvas.
+- **AI assistant** — describe an automation or ask for a workflow change, review the proposal, and complete account connections and required fields in the editor before activation.
+- **Reusable templates** — start with an existing automation and adapt its apps, resources, and mappings.
+- **Step testing** — inspect trigger samples and test configured steps before activating a Workflow. Tests that run Actions can create real records, files, or messages.
+- **Lifecycle controls** — keep work in Draft, activate it for new events, or pause it when needed.
 
-## Reliability model
+## Control the data and execution
 
-FastHook separates ingestion from downstream delivery:
+| Capability | What it does |
+| --- | --- |
+| **App and webhook Triggers** | Start a Workflow from supported provider activity or an incoming HTTP request. Delivery modes depend on the provider. |
+| **App Actions** | Send messages, create or update records, work with files, and perform other named provider operations. |
+| **Data mapping** | Pass values from the Trigger and earlier steps into later Action fields. |
+| **Filters** | Continue a route only when its conditions match. |
+| **Paths** | Route an event through named conditional branches. |
+| **Formatter** | Transform dates, numbers, text, lookups, and lists without writing code. |
+| **JavaScript transformations** | Apply custom payload logic with reusable transformations. |
+| **JSON Patch** | Modify structured data with RFC 6902 operations. |
+| **Loops** | Process array items with per-item mappings and inspect their results. |
+| **Delays** | Defer a route before continuing. |
+| **Destinations** | Deliver data through a reusable HTTP or transport configuration. |
+| **Error routes** | Follow a recovery or notification route when a step fails. |
 
-1. The inbound request is authenticated or its provider signature is verified.
-2. The exact payload is accepted and stored.
-3. Metadata and idempotency state are recorded.
-4. Matching Sources and Connections are resolved.
-5. Delivery work is placed onto queues.
-6. Each Destination attempt is tracked independently and retried according to policy.
+## Connect the apps you use
 
-This design lets FastHook acknowledge providers quickly while slower or unavailable Destinations recover asynchronously.
+Explore integrations for Google Workspace, Slack, Telegram, Discord, GitHub, Trello, Notion, Airtable, CRM tools, and other services in the [live catalog](https://www.fasthook.io/integrations).
 
-## Security
+Choose an app's supported Trigger or Action, connect the required account, and select the target resources. Trigger availability, Action operations, authentication methods, and permissions vary by integration.
 
-- Provider webhook signatures are verified before events are accepted.
-- Provider credentials and application secrets are stored separately from public Source configuration.
-- Connected accounts can be revoked from the dashboard.
-- GitHub App installations can be restricted to selected repositories.
-- Google and Slack permissions are requested through their standard authorization flows.
-- Idempotency and deduplication controls help prevent repeated downstream effects.
-- Sanitized sharing can be used when request details need to be shared without exposing sensitive values.
+For services outside the catalog, use a **Webhook Trigger** to receive events or an **HTTP Action / Destination** to call an API.
 
-Always review the permissions requested by a provider integration and grant access only to the accounts, workspaces, or repositories required for that Source.
+## Create your first automation
 
-## Product surface
+1. Open [Workflows](https://dashboard.fasthook.io/workflow) and select **New Workflow**, or choose a [template](https://www.fasthook.io/templates).
+2. Choose an app event or Webhook Source as the **Trigger**.
+3. Add an **Action**, connect its account, and choose the operation and target.
+4. Map the Trigger's fields into the Action. Add more steps, Filters, or Paths as needed.
+5. Test with representative data and review the inputs, outputs, and resulting changes in your apps.
+6. **Activate** the Workflow, produce a new event, and inspect the run in **Audit**.
 
-- [www.fasthook.io](https://www.fasthook.io) — product website, integration pages, documentation, and pricing.
-- [dashboard.fasthook.io](https://dashboard.fasthook.io) — Sources, Destinations, Connections, transformations, requests, events, fixtures, and alerts.
-- `api.fasthook.io` — control APIs, provider callbacks, and webhook ingestion endpoints.
-- `hook-*.fasthook.io` — dedicated public webhook Source endpoints.
+Only active Workflows process new events. Activation does not automatically backfill events that happened while a Workflow was inactive.
 
-## Project structure
+Follow the [complete quickstart](https://www.fasthook.io/docs/quickstart) for a guided walkthrough.
 
-This public repository is the project overview and canonical entry point for FastHook documentation, product links, and integration information.
+## See what happened in every run
 
-FastHook is developed across multiple internal components and deployment services. Implementation repositories and infrastructure details are intentionally not enumerated here.
+Workflow Audit connects the event that started an automation to the steps that processed it:
 
-## Integrations
+- Inspect Trigger data, mapped inputs, Action outputs, and provider errors.
+- See which steps succeeded, failed, or were skipped and which routes were selected.
+- Identify the Workflow version used by a run, even after the graph changes.
+- Inspect loop iterations when processing collections.
+- Diagnose the first failed step before changing the automation.
 
-FastHook is building a consistent Provider Source model so additional providers can be added without changing the core Source → Connection → Destination architecture.
+Temporary failures may retry according to runtime and provider behavior. External Actions should tolerate retries where repeated calls could create duplicate side effects. See [Runs and errors](https://www.fasthook.io/docs/runs).
 
-Current integration work includes:
+## Webhook tools for custom integrations
 
-- [Slack integration](https://www.fasthook.io/integrations/slack)
-- Google Sheets, Gmail, Google Drive, and Google Calendar
-- [FastHook.io GitHub App](https://github.com/apps/fasthook-io)
+FastHook also includes dedicated webhook Sources, request inspection, payload transformations, delivery history, retries, and replay tooling. Use them to connect custom systems and investigate HTTP traffic alongside app automations.
 
-## Project status
+See [Webhook infrastructure](https://www.fasthook.io/webhook-infrastructure) and [Webhook replay](https://www.fasthook.io/webhook-replay) for delivery and recovery workflows.
 
-FastHook is under active development. Product behavior, provider permissions, Source types, and public APIs may evolve as the platform expands.
+## Learn more
 
-Bug reports and focused feature requests are welcome through the relevant repository's GitHub Issues.
+- [Workflows](https://www.fasthook.io/docs/workflows) — builder, step types, lifecycle, and execution behavior.
+- [Triggers](https://www.fasthook.io/docs/triggers) and [Actions](https://www.fasthook.io/docs/actions) — start automations and perform work in connected apps.
+- [Data mapping](https://www.fasthook.io/docs/data-mapping) — pass data between steps.
+- [Paths and conditions](https://www.fasthook.io/docs/paths) — choose execution routes.
+- [Connected accounts](https://www.fasthook.io/docs/connected-accounts) — configure provider authentication.
+- [Workflow versioning](https://www.fasthook.io/docs/workflow-versioning) — understand saved graph versions and run history.
+- [Pricing](https://www.fasthook.io/pricing) — review current plans and limits.
+
+## About this repository
+
+This public repository is the FastHook product overview and entry point for documentation, integrations, and templates. It does not contain the application source code or a self-hosted distribution.
+
+FastHook is under active development. Available integrations, operations, and limits may evolve; consult the product and documentation for current behavior. Bug reports and focused feature requests are welcome through [GitHub Issues](https://github.com/alencmanis/fasthook.io/issues).
 
 ## License
 
